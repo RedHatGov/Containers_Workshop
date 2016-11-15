@@ -17,6 +17,12 @@ export AWS_SECRET_ACCESS_KEY='****************TFHJw'
 
 This repo also requires that you have Ansible installed on your local machine. For the most upto date methods of installing Ansible for your operating system [check here](http://docs.ansible.com/ansible/intro_installation.html).
 
+Install Boto for Ansible AWS Cloud Modules.
+
+```
+pip install boto
+```
+
 This repo also requires that Terraform be installed if you are using the `aws.infra.terraform` role. For the most upto data methods of installing Terraform for your operating system [check here](https://www.terraform.io/downloads.html)
 
 ## AWS Infrastructure Roles

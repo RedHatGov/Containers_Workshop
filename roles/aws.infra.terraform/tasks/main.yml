@@ -19,7 +19,7 @@
 
 - name: Create ssh keypair
   copy: content="{{ ec2_key.key.private_key }}"
-        dest="{{ ssh_key_path }}/container"
+        dest="{{ terraform_working_dir }}/container"
         mode=0400
   tags:
     - tf_create
@@ -27,21 +27,21 @@
 #  Terraform.io
 #---------------------------------------------------
 - name: Make temporary location to run Terraform
-  file: path=/tmp/terraform  state=directory
+  file: path="{{ terraform_working_dir }}"  state=directory
   tags:
     - tf_create
 
 - name: Template Terraform files locally to run
-  template: dest=/tmp/terraform/aws.tf  src=aws.tf.j2
+  template: dest="{{ terraform_working_dir }}/aws.tf"  src=aws.tf.j2
   tags:
     - tf_create
 
 - name: Template terraform.tfvars
-  template: dest=/tmp/terraform/terraform.tfvars  src=terraform.tfvars.j2
+  template: dest="{{ terraform_working_dir }}/terraform.tfvars"  src=terraform.tfvars.j2
   tags:
     - tf_create
 
 - name: Run Terraform
-  command: terraform apply chdir=/tmp/terraform  
+  command: terraform apply chdir="{{ terraform_working_dir }}"
   tags:
     - tf_create

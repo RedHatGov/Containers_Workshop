@@ -39,3 +39,8 @@ ssh_key_path: "{{ lookup('env','HOME') }}/.ssh"
 # aws.infra.terraform |  Number of Students
 #####################################################
 num_nodes: 25
+
+#####################################################
+# aws.infra.terraform |  Dir for tfstatefiles
+#####################################################
+terraform_working_dir: "{{ lookup('env','PWD') }}/tmp"
