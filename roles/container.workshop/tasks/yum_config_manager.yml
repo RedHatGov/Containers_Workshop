@@ -1,0 +1,9 @@
+---
+
+- name: Install EPEL
+  command: yum-config-manager --enable rhui-REGION-rhel-server-extras
+
+
+
+
+

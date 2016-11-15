@@ -1,0 +1,4 @@
+# file: roles/container.workshop/defaults/main.yml
+---
+#
+# foo: default

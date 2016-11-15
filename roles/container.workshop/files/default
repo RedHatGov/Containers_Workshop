@@ -1,0 +1,15 @@
+server {
+    auth_basic "Private Property";
+    auth_basic_user_file /opt/rh/nginx16/root/etc/pki/.htpasswd;
+
+	root /opt/rh/nginx16/root/usr/share/nginx/patternfly;
+	index index.html index.htm;
+    
+    listen       80;
+	server_name localhost;
+
+	location / {
+		try_files $uri $uri/ /index.html;
+	}
+
+}

@@ -1,0 +1,41 @@
+# file: group_vars
+
+#####################################################
+# Ansible SSH Vars
+#####################################################
+ansible_ssh_private_key_file: "{{ lookup('env','HOME') }}/.ssh/container"
+ansible_user: ec2-user
+
+#####################################################
+# container.workshop  |  RHEL Subscription Info
+#####################################################
+username: ""
+password: ""
+pool_id: ""
+
+workshop_password: "containers!@#" 
+
+#####################################################
+# aws.infra.terraform |  Domain Name you own
+#####################################################
+domain_name: ""
+zone_id: ""
+
+#####################################################
+# aws.infra.terraform |  AWS API Keys terraform.tfvars
+#####################################################
+aws_access_key: ""
+aws_secret_key: ""
+
+region: "us-east-1"
+
+#####################################################
+# aws.infra.terraform |  SSH Key Vars
+#####################################################
+ssh_key_path: "{{ lookup('env','HOME') }}/.ssh"
+
+
+#####################################################
+# aws.infra.terraform |  Number of Students
+#####################################################
+num_nodes: 25

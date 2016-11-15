@@ -1,0 +1,23 @@
+# file: aws_infra_terraform.yml
+---
+
+# https://www.terraform.io/docs/providers/aws/index.html
+
+
+- name: Provision AWS Infrastucture using Terraform 
+  hosts: local_target
+  environment:
+    AWS_ACCESS_KEY_ID: "{{ aws_access_key }}"
+    AWS_SECRET_ACCESS_KEY: "{{ aws_secret_key }}"
+  roles:
+  - { role: aws.infra.terraform, tags: ["tf_create"] }
+
+
+
+#############################################################
+#  USAGE
+#############################################################
+
+# ansible-playbook -i inventory aws_infra_terraform.yml --tags "tf_create" 
+
+# ansible-playbook -i inventory aws_infra_terraform.yml --tags "tf_destroy" 

@@ -1,0 +1,21 @@
+---
+#---------------------------------------------------
+#  Docker
+#---------------------------------------------------
+- name: Install Docker
+  become: yes
+  yum: name=docker state=present
+  tags:
+    - rhel
+
+- name: Enable insecure registry
+  become: yes
+  lineinfile: dest=/etc/sysconfig/docker state=present line='OPTIONS=--insecure-registry 172.30.0.0/16' regexp="^#?OPTIONS" 
+  tags:
+    - rhel
+
+- name: Start docker
+  become: yes
+  service: name=docker state=started enabled=yes
+  tags:
+    - rhel

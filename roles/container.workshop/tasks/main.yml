@@ -1,0 +1,20 @@
+# file: roles/container.workshop/tasks/main.yml
+---
+###########################################################
+# Yum config manger enables rhui-REGION-rhel-server-extras 
+# with out having to register the machine to a subscription
+###########################################################
+- include: yum_config_manager.yml
+- include: yum_workshop.yml
+
+###########################################################
+# Subscription manager requires a Red Hat Login
+###########################################################
+# - include: subscription_manager.yml
+# - include: subscription_workshop.yml
+
+###########################################################
+# Docker install
+###########################################################
+# - include: docker.yml
+

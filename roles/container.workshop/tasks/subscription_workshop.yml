@@ -1,0 +1,119 @@
+---
+
+#---------------------------------------------------
+#  Update System
+#---------------------------------------------------
+- name: Update all yum packages
+  yum: name=* state=latest
+  tags:
+    - rhel
+
+- name: Install pre requisites
+  yum: name={{ item }} state=present
+  with_items:
+      - wget
+      - vim
+      - git
+      - unzip
+      - nginx16
+      - httpd-tools
+  tags:
+    - rhel
+
+
+#---------------------------------------------------
+#  Nginx 
+#---------------------------------------------------
+# This is a simple nginx setup to serve students 
+# their ssh keys from a ami. 
+#
+# /opt/rh/nginx16/root/usr/share/nginx/html/index.html (main web)
+#
+# /opt/rh/nginx16/root/etc/nginx/nginx.conf (conf)
+#
+# /opt/rh/nginx16/root/etc/pki/.htpasswd  (htpasswd file)
+
+
+# # Red Hat's Software Collections
+- name: Enable nginx16
+  command: scl enable nginx16 bash
+  tags:
+    - rhel
+
+- name: Enable and Start nginx16
+  service: name=nginx16-nginx enabled=yes state=started 
+  tags:
+    - rhel
+
+- name: Copy custom nginx.conf with custom root path & htpasswd
+  copy: dest=/opt/rh/nginx16/root/etc/nginx/nginx.conf  src=nginx.conf   
+  tags:
+    - rhel
+
+
+# - name: Git clone PatternFly website
+#   git: repo=https://github.com/dischord01/patternfly.git  dest=/opt/rh/nginx16/root/usr/share/nginx/patternfly
+#   tags:
+#     - rhel
+
+- name: Just incase GitHub gets DDoS
+  unarchive: src=patternfly.tar.gz dest=/opt/rh/nginx16/root/usr/share/nginx
+  tags:
+    - rhel
+
+- name: Reload nginx
+  command: service nginx16-nginx restart
+  tags:
+    - rhel
+
+#---------------------------------------------------
+#  SSH Key
+#---------------------------------------------------
+- name: Copy over student ssh key 
+  copy: src="{{ lookup('env','HOME') }}/.ssh/container"  dest=/opt/rh/nginx16/root/usr/share/nginx/patternfly/container.pem
+  tags:
+    - rhel
+
+
+#---------------------------------------------------
+# Passwd Protect Site
+#---------------------------------------------------
+# - name: Copy pip over to install passlib for htpasswd
+#   copy: src=get-pip.py dest=/root/get-pip.py
+#   tags:
+#     - rhel
+
+# - name: Install pip
+#   shell: python get-pip.py chdir=/root    
+#   tags:
+#     - rhel
+
+# - name: pip install passlib
+#   shell: pip install passlib
+#   tags:
+#     - rhel
+
+# - name: Add a user to a password file and ensure permissions are set
+#   htpasswd: path=/opt/rh/nginx16/root/etc/pki/.htpasswd name=student password="{{ workshop_password }}" owner=root group=root mode=0640
+#   tags:
+#     - rhel
+
+# - name: Reload nginx
+#   command: service nginx16-nginx restart
+#   tags:
+#     - rhel
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

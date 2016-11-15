@@ -1,0 +1,14 @@
+# file: roles/container.workshop/vars/main.yml
+---
+# Fill in these variables in group_vars/all unless using only this role
+
+#####################################################
+# RHEL Subscription Info:
+#####################################################
+# username: ""
+# password: ""
+# pool_id: ""
+
+# workshop_password: "containers!@#" 
+
+

@@ -1,0 +1,47 @@
+---
+#---------------------------------------------------
+#  SSH Key
+#---------------------------------------------------
+- name: Check for existing key and remove
+  ec2_key: name="container" region="{{ region }}" state=absent
+  tags:
+    - tf_create
+
+- name: Create EC2 keypair
+  ec2_key: name="container" region="{{ region }}" state=present
+  register: ec2_key
+  tags:
+    - tf_create
+
+- debug: var=ec2_key
+  tags:
+    - tf_create
+
+- name: Create ssh keypair
+  copy: content="{{ ec2_key.key.private_key }}"
+        dest="{{ ssh_key_path }}/container"
+        mode=0400
+  tags:
+    - tf_create
+#---------------------------------------------------
+#  Terraform.io
+#---------------------------------------------------
+- name: Make temporary location to run Terraform
+  file: path=/tmp/terraform  state=directory
+  tags:
+    - tf_create
+
+- name: Template Terraform files locally to run
+  template: dest=/tmp/terraform/aws.tf  src=aws.tf.j2
+  tags:
+    - tf_create
+
+- name: Template terraform.tfvars
+  template: dest=/tmp/terraform/terraform.tfvars  src=terraform.tfvars.j2
+  tags:
+    - tf_create
+
+- name: Run Terraform
+  command: terraform apply chdir=/tmp/terraform  
+  tags:
+    - tf_create
